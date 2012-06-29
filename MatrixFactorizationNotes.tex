@@ -33,14 +33,14 @@ The most widely used dimensionality reduction algorithm is PCA.  PCA finds an  o
 \item Maximize variance in projected space: 
 \begin{equation}
 \begin{aligned}
-& \underset{\mathbf{H}}{\text{maximize}} & &\| \mathbf{X} \mathbf{V} \|_2^2 \\ 
+& \underset{\mathbf{V}}{\text{maximize}} & &\| \mathbf{X} \mathbf{V} \|_2^2 \\ 
 &\text{subject to} & &\mathbf{V}^{\mathrm{T}} \mathbf{V} = \mathbf{I}
 \end{aligned}
 \end{equation}
 \item Minimizing reconstruction error:
 \begin{equation}
 \begin{aligned}
-& \underset{\mathbf{H}}{\text{minimize}} & &  \| \mathbf{X} - \mathbf{VV}^{\mathrm{T}}  \mathbf{X}\|_2^2 \\ 
+& \underset{\mathbf{V}}{\text{minimize}} & &  \| \mathbf{X} - \mathbf{VV}^{\mathrm{T}}  \mathbf{X}\|_2^2 \\ 
 &\text{subject to} & & \mathbf{V}^{\mathrm{T}} \mathbf{V}= \mathbf{I}
 \end{aligned}
 \label{eqn:reconstruction_error}

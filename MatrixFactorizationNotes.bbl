@@ -1,0 +1,46 @@
+\begin{thebibliography}{1}
+
+\bibitem{hyvarinen_fast_1999}
+A.~Hyvarinen.
+\newblock Fast and robust fixed-point algorithms for independent component
+  analysis.
+\newblock {\em Neural Networks, {IEEE} Transactions on}, 10(3):626 --634, May
+  1999.
+
+\bibitem{hyvarinen_independent_2000}
+A.~Hyvärinen and E.~Oja.
+\newblock Independent component analysis: Algorithms and applications.
+\newblock {\em Neural Networks}, 13(4-5):411--430, 2000.
+
+\bibitem{jolliffe_simplified_2000}
+{I.T.} Jolliffe and M.~Uddin.
+\newblock The simplified component technique: An alternative to rotated
+  principal components.
+\newblock {\em Journal of Computational and Graphical Statistics},
+  9(4):689--710, 2000.
+
+\bibitem{rodgers_linearly_1984}
+J.~L. Rodgers, W.~A. Nicewander, and L.~Toothaker.
+\newblock Linearly independent, orthogonal, and uncorrelated variables.
+\newblock {\em The American Statistician}, 38(2):133--134, 1984.
+
+\bibitem{shen_sparse_2008}
+H.~Shen and {J.Z.} Huang.
+\newblock Sparse principal component analysis via regularized low rank matrix
+  approximation.
+\newblock {\em Journal of Multivariate Analysis}, 99(6):1015--1034, 2008.
+
+\bibitem{witten_penalized_2009}
+Daniela~M Witten, Robert Tibshirani, and Trevor Hastie.
+\newblock A penalized matrix decomposition, with applications to sparse
+  principal components and canonical correlation analysis.
+\newblock {\em Biostatistics {(Oxford}, England)}, 10(3):515--534, July 2009.
+\newblock {PMID:} 19377034.
+
+\bibitem{zou_sparse_2006}
+H.~Zou, T.~Hastie, and R.~Tibshirani.
+\newblock Sparse principal component analysis.
+\newblock {\em Journal of computational and graphical statistics},
+  15(2):265---286, 2006.
+
+\end{thebibliography}

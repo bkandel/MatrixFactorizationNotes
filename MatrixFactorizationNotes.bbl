@@ -19,6 +19,12 @@ A.~Hyvärinen and E.~Oja.
 \newblock {\em Journal of Computational and Graphical Statistics},
   9(4):689--710, 2000.
 
+\bibitem{li_learning_2001}
+{S.Z.} Li, {X.W.} Hou, {H.J.} Zhang, and {Q.S.} Cheng.
+\newblock Learning spatially localized, parts-based representation.
+\newblock In {\em Proceedings of the {IEEE} Computer Society Conference on
+  Computer Vision and Pattern Recognition}, volume~1, pages I207--I212, 2001.
+
 \bibitem{rodgers_linearly_1984}
 J.~L. Rodgers, W.~A. Nicewander, and L.~Toothaker.
 \newblock Linearly independent, orthogonal, and uncorrelated variables.

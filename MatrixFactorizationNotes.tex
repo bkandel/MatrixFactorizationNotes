@@ -81,9 +81,15 @@ NMF has two objective functions (see ``Algorithms for Non-Negative Matrix Factor
 & \text{subject to} & &\mathbf{V,W} \succeq 0, 
 \end{aligned}
 \end{equation}
-where $D\left(X\|Y\right)$ is the divergence (KL, if they're probabilities) of the two arguments.
+where $D\left(X\|Y\right)$ is the divergence (KL, if they're probabilities) of the two arguments, having the form $D\left(A\Vert B\right)=\sum_{ij}\left(A_{ij}\log\frac{A_{ij}}{B_{ij}} - A_{ij} + B_{ij}\right)$.
 \end{enumerate}
-There are no orthogonality, diagonalization, etc.\ constraints at all. 
+There are no orthogonality, diagonalization, etc.\ constraints at all in the original formulation.  Since the original formulation, there have been a few additions that included different constraints. Li \cite{li_learning_2001} includes an orthonormality constraint.  He includes a soft penalty rather than a hard constraint, so that his objective function is of the form 
+\begin{equation}
+\begin{aligned}
+&\underset{\mathbf{V}, \mathbf{W}}{\text{minimize}} &&\| \mathbf{X} - \mathbf{VW}\transpose\|_2^2 + \lambda \sum_i \sum_{j \neq i} v_{ij}\\  
+& \text{subject to} & &\mathbf{V,W} \succeq 0 
+\end{aligned}
+\end{equation}
 
 \section*{ICA}
 ICA uses a fundamentally different objective function from PCA. As explained before,  PCA maximizes the variance of the projections onto the eigenvectors.  This objective has a simple closed-form solution, but suffers from the drawback of assuming that the variance of the projections is a sufficient statistic to characterize the data.  If the data follows a Gaussian distribution, the variance is a sufficient statistic.  ICA, on the other hand, does not assume Gausssianity of the data.  Because of this, it cannot use variance as a statistic.  Instead, it first whitens the data so that it has unit variance, and then computes ``eigenvectors'' that give independent projections. 

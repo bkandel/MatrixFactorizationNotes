@@ -81,7 +81,7 @@ NMF has two objective functions (see ``Algorithms for Non-Negative Matrix Factor
 & \text{subject to} & &\mathbf{V,W} \succeq 0, 
 \end{aligned}
 \end{equation}
-where $D\left(X\|Y\right)$ is the divergence (KL, if they're probabilities) of the two arguments, having the form $D\left(A\Vert B\right)=\sum_{ij}\left(A_{ij}\log\frac{A_{ij}}{B_{ij}} - A_{ij} + B_{ij}\right)$.
+where $D\left(X\|Y\right)$ is the divergence (KL, if they're probabilities) of the two arguments, having the form $D\left(A\Vert B\right)=\sum_{ij}\left(A_{ij}\log\frac{A_{ij}}{B_{ij}} - A_{ij} + B_{ij}\right)$.  No motivation is given for the introduction of the divergence metric as opposed to Frobenius norms.  It's unclear to me what benefit it offers. 
 \end{enumerate}
 There are no orthogonality, diagonalization, etc.\ constraints at all in the original formulation.  Since the original formulation, there have been a few additions that included different constraints. Li \cite{li_learning_2001} includes an orthonormality constraint.  He includes a soft penalty rather than a hard constraint, so that his objective function is of the form 
 \begin{equation}

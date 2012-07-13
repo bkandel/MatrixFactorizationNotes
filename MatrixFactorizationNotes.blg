@@ -11,9 +11,9 @@ Reallocated glb_str_end (elt_size=4) to 10 items from 0.
 Database file #1: kandel_lib.bib
 
 Here's how much of BibTeX's memory you used:
- Cites:                 8 out of 750
- Fields:               58 out of 5000
- Hash table:         4824 out of 5000
- Strings:             551 out of 4000
- Free string pool:   5513 out of 65000
+ Cites:                 9 out of 750
+ Fields:               81 out of 5000
+ Hash table:         4822 out of 5000
+ Strings:             557 out of 4000
+ Free string pool:   5646 out of 65000
  Wizard functions:   2118 out of 3000

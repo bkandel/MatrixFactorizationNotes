@@ -95,22 +95,46 @@ There are no orthogonality, diagonalization, etc.\ constraints at all in the ori
 It seems to me that the reason that orthogonality is not necessary for NMF when reconstrution cost is used is that when non-negativity constraints are used, reconstruction costs take the place of orthogonality (like what we saw before for PCA, but even stronger, because there can't be cancellation). (This should probably be formalized.)  
 
 \section*{ICA}
-ICA uses a fundamentally different objective function from PCA. As explained before,  PCA maximizes the variance of the projections onto the eigenvectors.  This objective has a simple closed-form solution, but suffers from the drawback of assuming that the variance of the projections is a sufficient statistic to characterize the data.  If the data follows a Gaussian distribution, the variance is a sufficient statistic.  ICA, on the other hand, does not assume Gaussianity of the data.  Because of this, it cannot use variance as a statistic.  Instead, it first whitens the data so that it has unit variance, and then computes ``eigenvectors'' that give independent projections. 
+As opposed to PCA and variants, which aim to perform dimensionality reduction, ICA (independent components analysis) was originally proposed to solve the ``blind source separation'' problem in which the observed signals are a mixture of the source signals, which are statistically independent.  Because of this focus of the problem, the nomenclature is different in ICA.  The standard ICA nomenclature is as follows: 
+\begin{equation}
+\mathbf{X} = \mathbf{As},
+\end{equation}
+where $\mathbf{X}$ is the observed data matrix, $\mathbf{A}$ is the ``mixing'' matrix, and $\mathbf{s}$ is the source matrix.  In the nomenclature we are using, $\mathbf{A}$ corresponds to the loading matrix $\mathbf{W}$, and $\mathbf{s}$ corresponds to the basis matrix $\mathbf{V}$.  In the ICA literature, the inverse of the mixing matrix $\mathbf{A}$ is denoted $\mathbf{W}$, but we will not be using that here to avoid confusion with the loading matrix.  Using our notation, the parallel problem to the PCA objective function (Equation \ref{eqn:reconstruction_error}) is something like: 
 
-Instead of using the variance of the projections, ICA (at least as implemented in the FastICA algorithm, which is the most widely used algorithm for ICA \cite{hyvarinen_fast_1999,hyvarinen_independent_2000}) uses the negentropy, which is a measure of how far apart a given random variable is from Gaussianity: 
+\begin{equation}
+\begin{aligned}
+& \underset{\mathbf{W}, \mathbf{V}}{\text{minimize}} & &  \| \mathbf{X} - \mathbf{WV}  \|_2^2 \\ 
+&\text{subject to} & & \text{Columns of } \mathbf{V} \, \text{``independent.''}
+\end{aligned}
+\label{eqn:ica}
+\end{equation}
+
+In practice, though (at least as usually formulated), ICA uses a fundamentally different objective function from PCA. As explained before,  PCA maximizes the variance of the projections onto the eigenvectors.  This objective has a simple closed-form solution, but suffers from the drawback of assuming that the variance of the projections is a sufficient statistic to characterize the data.  If the data follows a Gaussian distribution, the variance is a sufficient statistic.  ICA, on the other hand, does not assume Gaussianity of the data.  Because of this, it cannot use variance as a statistic.  Instead, it first whitens the data so that it has unit variance, and then computes ``eigenvectors'' that give independent projections \cite{comon_independent_1994,hyvarinen_fast_1999,hyvarinen_independent_2000}.  The reason for whitening is that the distribution of Gaussian variables is invariant under orthogonal transformation \cite{comon_independent_1994}.  Because of this, using the variance of the dataset, which corresponds to second-order statistics, is only correct up to an orthogonal transformation.  Once the data has been whitened, second-order statistics are no longer useful for further transformations, and higher-order statistics are necessary.  Originally, kurtosis was used \cite{cardoso_source_1989}, but this has fallen out of favor and has been replaced by more robust approximations of non-Gaussianity. 
+
+Therefore, instead of using the variance of the projections, ICA (at least as implemented in the FastICA algorithm, which is the most widely used algorithm for ICA \cite{hyvarinen_fast_1999,hyvarinen_independent_2000}) uses the negentropy, which is a measure of how far apart a given random variable is from Gaussianity: 
 \begin{equation}
 J_G \left( \mathbf{v}\right) = \left[ E \left\lbrace G \left( \mathbf{v}\transpose \mathbf{x}\right) \right\rbrace - E \left\lbrace G \left( \nu \right) \right\rbrace \right]^2,
 \end{equation}
-where $\mathbf{v}$ is a column of $\mathbf{V}$ and $\mathbf{x}$ is a row of $\mathbf{X}$,  $\nu$ is a Gaussian rv with unit variance (same as $\mathbf{v}$) and $G$ is some non-quadratic  ``contrast'' function, such as $\log \cosh (x)$. One other major difference between PCA and ICA is that the orthogonality constraint is replaced by a uncorrelatedness constraint.  The difference between these two constraints is rooted in the departure from the Gaussianity assumption:  With a Gaussian distribution, all necessary information is given by the mean and variance (second-order statistics).  ICA also uses higher-order statistics, such as kurtosis (fourth-order) or a convenient approximation of it.  With these two modifications, we can write the objective function of ICA as follows:
+where $\mathbf{v}$ is a column of $\mathbf{V}$ and $\mathbf{x}$ is a row of $\mathbf{X}$,  $\nu$ is a Gaussian rv with unit variance (same as $\mathbf{v}$) and $G$ is some non-quadratic  ``contrast'' function, such as $\log \cosh (x)$. 
 
  \begin{equation}
 \begin{aligned}
 &\underset{\mathbf{v}}{\text{maximize}} && \sum_{i=1}^n J_G \left( \mathbf{v_i} \right) \\ 
-& \text{subject to} & & E \left\lbrace \left( \mathbf{v}_i\transpose \mathbf{x} \right) \left( \mathbf{v}_j\transpose \mathbf{x} \right) \right\rbrace = \delta_{ij}
+& \text{subject to} & & \mathbf{V}\transpose\mathbf{V} = \mathbf{I}
 \end{aligned}
 \end{equation}
-The FastICA optimization procedure involves Gram--Schmidt ``decorrelation'' (which here seems to me the same as orthogonalization, unless I'm missing something), the same as in power method iteration versions of PCA.  So I'm not sure how different these really are in practice.
 
+Note that in this part of the decomposition, there is no reconstruction cost term.  Because there is no dimensionality reduction at all in this stage and the transformation can be full rank, it is invertible and the original data can be recovered.  The reason for the rotation here is to produce highly kurtotic sources, not to reconstruct the data.   
+
+\subsection*{Connection between SPCA and ICA}
+This is intended as a sketch of the connection between SPCA and ICA.  If ICA is done in a one-step way, in which both orthogonality and kurtosis of the vectors are imposed (so that the PCA whitening stage and the ICA rotation stage are performed at the same time), it will end up being very similar to SPCA.  This is because the kurtotic penalty on the ICA vectors makes the entries in the ICA basis vectors have a non-Gaussian distribution--spikier, with a heavier tail.  In practice, this corresponds to having many entries in the ICA basis vector be 0, and many have strongly non-0 values, the same idea as happens in an $\ell_1$-based sparseness penalty.  The reason for this can be seen clearly when we formulate the objective function: 
+ \begin{equation}
+\begin{aligned}
+&\underset{\mathbf{V}}{\text{minimize}} && \|\mathbf{X} - \mathbf{VV}\transpose \mathbf{X}\| - (\log \cosh \mathbf{V} - \log \cosh \nu)  \\ 
+& \text{subject to} & & \mathbf{V}\transpose\mathbf{V} = \mathbf{I}
+\end{aligned}
+\end{equation}
+The $\log \cosh$ function is very similar to an $\ell_1$ penalty.  It's not clear to me what exactly would change if we forgot about the negentropy step (difference between the contrast function applied to the basis vector and a Gaussian vector) and just applied the contrast function straight to the basis vector, but if we did, that would be straight SPCA.  I think that this question is at the heart of the difference between SPCA and ICA, and can help us formulate them both in a common framework. 
 \bibliographystyle{plain}
 \bibliography{kandel_lib}
 

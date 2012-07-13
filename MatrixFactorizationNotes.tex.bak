@@ -127,8 +127,14 @@ where $\mathbf{v}$ is a column of $\mathbf{V}$ and $\mathbf{x}$ is a row of $\ma
 Note that in this part of the decomposition, there is no reconstruction cost term.  Because there is no dimensionality reduction at all in this stage and the transformation can be full rank, it is invertible and the original data can be recovered.  The reason for the rotation here is to produce highly kurtotic sources, not to reconstruct the data.   
 
 \subsection*{Connection between SPCA and ICA}
-This is intended as a sketch of the connection between SPCA and ICA.  If ICA is done in a one-step way, in which both orthogonality and kurtosis of the vectors is imposed (so that the PCA whitening stage and the ICA rotation stage) are performed at the same time, it will end up being very similar to SPCA.  This is because the kurtotic penalty on the ICA vectors makes the entries in the ICA basis vectors have a non-Gaussian distribution--spikier, with a heavier tail.  In practice, this corresponds to having many entries in the ICA basis vector be 0, and many have strongly non-0 values, the same idea as happens in an $\ell_1$-based sparseness penalty.  
-
+This is intended as a sketch of the connection between SPCA and ICA.  If ICA is done in a one-step way, in which both orthogonality and kurtosis of the vectors are imposed (so that the PCA whitening stage and the ICA rotation stage are performed at the same time), it will end up being very similar to SPCA.  This is because the kurtotic penalty on the ICA vectors makes the entries in the ICA basis vectors have a non-Gaussian distribution--spikier, with a heavier tail.  In practice, this corresponds to having many entries in the ICA basis vector be 0, and many have strongly non-0 values, the same idea as happens in an $\ell_1$-based sparseness penalty.  The reason for this can be seen clearly when we formulate the objective function: 
+ \begin{equation}
+\begin{aligned}
+&\underset{\mathbf{V}}{\text{minimize}} && \|\mathbf{X} - \mathbf{VV}\transpose \mathbf{X}\| - (\log \cosh \mathbf{V} - \log \cosh \nu)  \\ 
+& \text{subject to} & & \mathbf{V}\transpose\mathbf{V} = \mathbf{I}
+\end{aligned}
+\end{equation}
+The $\log \cosh$ function is very similar to an $\ell_1$ penalty.  It's not clear to me what exactly would change if we forgot about the negentropy step (difference between the contrast function applied to the basis vector and a Gaussian vector) and just applied the contrast function straight to the basis vector, but if we did, that would be straight SPCA.  I think that this question is at the heart of the difference between SPCA and ICA, and can help us formulate them both in a common framework. 
 \bibliographystyle{plain}
 \bibliography{kandel_lib}
 

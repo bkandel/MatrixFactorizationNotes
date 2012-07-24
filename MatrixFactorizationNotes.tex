@@ -130,11 +130,13 @@ Note that in this part of the decomposition, there is no reconstruction cost ter
 This is intended as a sketch of the connection between SPCA and ICA.  If ICA is done in a one-step way, in which both orthogonality and kurtosis of the vectors are imposed (so that the PCA whitening stage and the ICA rotation stage are performed at the same time), it will end up being very similar to SPCA.  This is because the kurtotic penalty on the ICA vectors makes the entries in the ICA basis vectors have a non-Gaussian distribution--spikier, with a heavier tail.  In practice, this corresponds to having many entries in the ICA basis vector be 0, and many have strongly non-0 values, the same idea as happens in an $\ell_1$-based sparseness penalty.  The reason for this can be seen clearly when we formulate the objective function: 
  \begin{equation}
 \begin{aligned}
-&\underset{\mathbf{V}}{\text{minimize}} && \|\mathbf{X} - \mathbf{VV}\transpose \mathbf{X}\| - (\log \cosh \mathbf{V} - \log \cosh \nu)  \\ 
+&\underset{\mathbf{V}}{\text{minimize}} && -\|\mathbf{XV}\| - (\log \cosh \mathbf{V} - \log \cosh \nu)  \\ 
 & \text{subject to} & & \mathbf{V}\transpose\mathbf{V} = \mathbf{I}
 \end{aligned}
 \end{equation}
 The $\log \cosh$ function is very similar to an $\ell_1$ penalty.  It's not clear to me what exactly would change if we forgot about the negentropy step (difference between the contrast function applied to the basis vector and a Gaussian vector) and just applied the contrast function straight to the basis vector, but if we did, that would be straight SPCA.  I think that this question is at the heart of the difference between SPCA and ICA, and can help us formulate them both in a common framework. 
+
+\subsection*{Imposing Sparseness on ICA}
 \bibliographystyle{plain}
 \bibliography{kandel_lib}
 
